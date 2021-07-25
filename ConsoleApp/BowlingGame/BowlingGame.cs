@@ -6,22 +6,65 @@ namespace ConsoleApp
 {
     public class BowlingGame
     {
-        public List<int> Rolls { get; set; } = new List<int>();
-        public bool IsSpare { get; private set; }
-        public int Multiplier
+        private int[] rolls = new int[21];
+        private int currentRoll = 0;
+        public int Score
         {
-            get => IsSpare ? 2 : 1;
+            get
+            {
+                var score = 0;
+                var rollIndex = 0;
+                for (int frame = 0; frame < 10; frame++)
+                {
+                    if (IsStrike(rollIndex))
+                    {
+                        score += GetStrikeScore(rollIndex);
+                        rollIndex++;
+                    }
+                    else if (IsSpare(rollIndex))
+                    {
+                        score += GetSpareScore(rollIndex);
+                        rollIndex += 2;
+                    }
+                    else
+                    {
+                        score += GetStandardScore(rollIndex);
+                        rollIndex += 2;
+                    }
+                }
+
+                return score;
+            }
         }
-        public int GetScore()
+        public void Roll(int pins)
         {
-            return Rolls.Sum();
+            rolls[currentRoll++] = pins;
+        }
+        private bool IsSpare(int index)
+        {
+            return rolls[index] + rolls[index + 1] == 10;
         }
 
-        public void Roll(int score)
+        private bool IsStrike(int index)
         {
-            Rolls.Add(score * Multiplier);
-
-            IsSpare = score == 10;
+            return rolls[index] == 10;
         }
+
+        private int GetStandardScore(int index)
+        {
+            return rolls[index] + rolls[index + 1];
+        }
+
+        private int GetSpareScore(int index)
+        {
+            return rolls[index] + rolls[index + 1] + rolls[index + 2];
+        }
+
+        private int GetStrikeScore(int index)
+        {
+            return rolls[index] + rolls[index + 1] + rolls[index + 2];
+        }
+
+
     }
 }

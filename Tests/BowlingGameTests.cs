@@ -6,70 +6,77 @@ namespace Tests
     [TestFixture]
     class BowlingGameTests
     {
-        BowlingGame bowlingGame;
+        BowlingGame game;
 
         [SetUp]
         public void Setup()
         {
-            bowlingGame = new BowlingGame();
+            game = new BowlingGame();
         }
 
         [Test]
-        public void GetScore_AllRollsMissed_ReturnsZero()
+        public void CanRollGutterGame()
         {
             var expected = 0;
 
-            bowlingGame.Roll(0);
-            bowlingGame.Roll(0);
-            bowlingGame.Roll(0);
-            bowlingGame.Roll(0);
-            bowlingGame.Roll(0);
+            RollMany(0, 20);
 
-            var result = bowlingGame.GetScore();
 
-            Assert.AreEqual(expected, result);
+            Assert.AreEqual(expected, game.Score);
         }
 
         [Test]
-        public void GetScore_AllRollsOnePin_ReturnsTwenty()
+        public void CanRollAllOnes()
         {
             var expected = 20;
 
-            for(var i = 0; i < 20; i++)
-            {
-                bowlingGame.Roll(1);
-            }
+            RollMany(1, 20);
 
-            var result = bowlingGame.GetScore();
-
-            Assert.AreEqual(expected, result);
+            Assert.AreEqual(expected, game.Score);
         }
 
         [Test]
-        public void GetScore_AfterSpare_NextRollDoubles()
+        public void CanRollSpare()
         {
             var expected = 16;
 
-            bowlingGame.Roll(10);
-            bowlingGame.Roll(3);
+            game.Roll(5);
+            game.Roll(5);
+            game.Roll(3);
+            RollMany(0, 17);
 
-            var result = bowlingGame.GetScore();
-
-            Assert.AreEqual(expected, result);
+            Assert.AreEqual(expected, game.Score);
         }
 
         [Test]
-        public void GetScore_AfterSpare_NextTwoRollsDoubles()
+        public void CanRollStrike()
         {
             var expected = 24;
 
-            bowlingGame.Roll(10);
-            bowlingGame.Roll(3);
-            bowlingGame.Roll(4);
+            game.Roll(10);
+            game.Roll(3);
+            game.Roll(4);
+            RollMany(0, 16);
 
-            var result = bowlingGame.GetScore();
+            Assert.AreEqual(expected, game.Score);
+        }
 
-            Assert.AreEqual(expected, result);
+        [Test]
+        public void CanRollPerfect()
+        {
+            var expected = 300;
+
+            RollMany(12, 10);
+
+            Assert.AreEqual(expected, game.Score);
+        }
+
+        private void RollMany(int rolls, int pins)
+        {
+            for (var i = 0; i < rolls; i++)
+            {
+                game.Roll(pins);
+            }
         }
     }
 }
