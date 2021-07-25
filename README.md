@@ -1,5 +1,5 @@
 # TDD-katas
-Here I practice TDD according to Nuget Package TDD Katas. Tasks:
+Here I practice TDD according to Nuget Package TDD Katas.
 
 ## String Calculator Kata (via [Roy Osherove](http://osherove.com/tdd-kata-1/))
 
