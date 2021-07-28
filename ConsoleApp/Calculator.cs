@@ -2,15 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Tests
+namespace ConsoleApp
 {
-    internal class Calculator
+    public class Calculator
     {
-        public Calculator()
-        {
-        }
-
-        internal int Add(string numbers)
+        public int Add(string numbers)
         {
             if (string.IsNullOrEmpty(numbers))
             {

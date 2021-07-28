@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ConsoleApp.FizzBuzz;
+﻿using ConsoleApp.FizzBuzz;
 using NUnit.Framework;
+using System;
 
 namespace Tests
 {
     [TestFixture]
-    class FizzBuzzTests
+    class FizzBuzzConsoleTests
     {
         FizzBuzzConsole console;
         private const string Fizz = "Fizz";
