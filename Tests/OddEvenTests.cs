@@ -17,7 +17,7 @@ namespace Tests
         }
 
         [Test]
-        [TestCase(1, "1")]
+        [TestCase(1, Odd)]
         [TestCase(2, "2")]
         [TestCase(3, "3")]
         [TestCase(4, Even)]
