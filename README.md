@@ -75,7 +75,7 @@ Jeśli w jednej turze w jednym rzucie osiągniemy wynik 10 to do tej tury zostan
 	- Make method to accept any number of range [currently  we have 1 to 100]
 	- Create a new method to check Odd/Even/Prime of a single supplied method
 
-### The PrimeFactor Kata (via [Uncle Bob](http://butunclebob.com/ArticleS.UncleBob.ThePrimeFactorsKata))
+### The PrimeFactor Kata (via [Uncle Bob](http://www.butunclebob.com/ArticleS.UncleBob.ThePrimeFactorsKata))
 
 -------------------
 
