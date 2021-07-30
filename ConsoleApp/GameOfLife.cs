@@ -17,17 +17,17 @@ namespace ConsoleApp
                     var currentCell = gridCopy[XPosition, YPosition];
                     var numberOfNeighbours = GetNumberOfAliveNeighboars(gridCopy, XPosition, YPosition);
 
-                    if (IsAliveCell(currentCell) && numberOfNeighbours < 2)
+                    if (IsAlive(currentCell) && numberOfNeighbours < 2)
                     {
                         grid[XPosition, YPosition] = DEAD;
                     }
 
-                    if (IsAliveCell(currentCell) && numberOfNeighbours > 3)
+                    if (IsAlive(currentCell) && numberOfNeighbours > 3)
                     {
                         grid[XPosition, YPosition] = DEAD;
                     }
 
-                    if (IsDeadCell(currentCell) && numberOfNeighbours == 3)
+                    if (IsDead(currentCell) && numberOfNeighbours == 3)
                     {
                         grid[XPosition, YPosition] = ALIVE;
                     }
@@ -55,7 +55,7 @@ namespace ConsoleApp
                 for (int currentY = yStart; currentY <= yEnd; currentY++)
                 {
                     var isNeighbour = IsNeighbour(XPosition, YPosition, currentX, currentY);
-                    if (isNeighbour && IsAliveCell(grid[currentX, currentY]))
+                    if (isNeighbour && IsAlive(grid[currentX, currentY]))
                     {
                         result++;
                     }
@@ -70,12 +70,12 @@ namespace ConsoleApp
             return !(XPosition == currentX && YPosition == currentY);
         }
 
-        private bool IsAliveCell(char cell)
+        private bool IsAlive(char cell)
         {
             return cell == ALIVE;
         }
 
-        private bool IsDeadCell(char cell)
+        private bool IsDead(char cell)
         {
             return cell == DEAD;
         }
