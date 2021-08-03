@@ -20,7 +20,7 @@ namespace Tests
         }
 
         [Test]
-        public void NextGeneration_ShouldKillCellsWithLessThanTwoNeighbours()
+        public void NextGeneration_WithLessThanTwoNeighbours_ShouldKillCells()
         {
             var input = new char[4, 4] { { '.', '.', '.', '.' },
                                          { '.', '*', '*', '.' },
@@ -38,7 +38,7 @@ namespace Tests
         }
 
         [Test]
-        public void NextGeneration_ShouldKillCellsWithMoreThanThreeNeighbours()
+        public void NextGeneration_WithMoreThanThreeNeighbours_ShouldKillCells()
         {
             var input = new char[3, 4] { { '.', '*', '*', '*' },
                                          { '.', '.', '*', '.' },
@@ -54,7 +54,7 @@ namespace Tests
         }
 
         [Test]
-        public void NextGeneration_ShouldIdleAliveCellsWithTwoOrThreeNeighbours()
+        public void NextGeneration_WithTwoOrThreeNeighbours_ShouldIdleAliveCells()
         {
             var input = new char[4, 4] { { '*', '*', '*', '*' },
                                          { '*', '.', '.', '*' },
@@ -72,7 +72,7 @@ namespace Tests
         }
 
         [Test]
-        public void NextGeneration_ShouldBornDeadCellsWithThreeNeighbours()
+        public void NextGeneration_WithThreeNeighbours_ShouldBornDeadCells()
         {
             var input = new char[5, 4] { { '*', '*', '*', '*' },
                                          { '*', '.', '.', '*' },
@@ -85,6 +85,30 @@ namespace Tests
                                             { '*', '*', '*', '*' },
                                             { '*', '.', '.', '*' },
                                             { '*', '*', '*', '*' }};
+
+            var actual = gameOfLife.NextGeneration(input);
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void NextGeneration_OneAliveCell_ShouldKillAliveCell()
+        {
+            var input = new char[1, 1] { { '*' } };
+
+            var expected = new char[1, 1] { { '.' } };
+
+            var actual = gameOfLife.NextGeneration(input);
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void NextGeneration_OneDeadCell_ShouldKeepDeadCell()
+        {
+            var input = new char[1, 1] { { '.' } };
+
+            var expected = new char[1, 1] { { '.' } };
 
             var actual = gameOfLife.NextGeneration(input);
 

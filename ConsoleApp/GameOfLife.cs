@@ -7,34 +7,44 @@ namespace ConsoleApp
         private const char ALIVE = '*';
         private const char DEAD =  '.';
 
-        public char[,] NextGeneration(char[,] grid)
+        public char[,] NextGeneration(char[,] inputGrid)
         {
-            var gridCopy = grid.Clone() as char[,];
-            for (int XPosition = 0; XPosition < grid.GetLength(0); XPosition++)
+            var rowsNumber = inputGrid.GetLength(0);
+            var columnsNumber = inputGrid.GetLength(1);
+            var outputGrid = new char[rowsNumber, columnsNumber];
+
+            for (int XPosition = 0; XPosition < rowsNumber; XPosition++)
             {
-                for (int YPosition = 0; YPosition < grid.GetLength(1); YPosition++)
+                for (int YPosition = 0; YPosition < columnsNumber; YPosition++)
                 {
-                    var currentCell = gridCopy[XPosition, YPosition];
-                    var numberOfNeighbours = GetNumberOfAliveNeighboars(gridCopy, XPosition, YPosition);
-
-                    if (IsAlive(currentCell) && numberOfNeighbours < 2)
-                    {
-                        grid[XPosition, YPosition] = DEAD;
-                    }
-
-                    if (IsAlive(currentCell) && numberOfNeighbours > 3)
-                    {
-                        grid[XPosition, YPosition] = DEAD;
-                    }
-
-                    if (IsDead(currentCell) && numberOfNeighbours == 3)
-                    {
-                        grid[XPosition, YPosition] = ALIVE;
-                    }
+                    outputGrid[XPosition, YPosition] = DetermineCellState(inputGrid, XPosition, YPosition);
                 }
             }
 
-            return grid;
+            return outputGrid;
+        }
+
+        private char DetermineCellState(char[,] grid, int XPosition, int YPosition)
+        {
+            var currentCellState = grid[XPosition, YPosition];
+            var numberOfNeighbours = GetNumberOfAliveNeighboars(grid, XPosition, YPosition);
+
+            if (IsAlive(currentCellState) && numberOfNeighbours < 2)
+            {
+                return DEAD;
+            }
+
+            if (IsAlive(currentCellState) && numberOfNeighbours > 3)
+            {
+                return DEAD;
+            }
+
+            if (IsDead(currentCellState) && numberOfNeighbours == 3)
+            {
+                return ALIVE;
+            }
+
+            return currentCellState;
         }
 
         private int GetNumberOfAliveNeighboars(char[,] grid, int XPosition, int YPosition)
@@ -54,8 +64,8 @@ namespace ConsoleApp
             {
                 for (int currentY = yStart; currentY <= yEnd; currentY++)
                 {
-                    var isNeighbour = IsNeighbour(XPosition, YPosition, currentX, currentY);
-                    if (isNeighbour && IsAlive(grid[currentX, currentY]))
+                    var isSelf = IsSelf(XPosition, YPosition, currentX, currentY);
+                    if (!isSelf && IsAlive(grid[currentX, currentY]))
                     {
                         result++;
                     }
@@ -65,9 +75,9 @@ namespace ConsoleApp
             return result;
         }
 
-        private bool IsNeighbour(int XPosition, int YPosition, int currentX, int currentY) 
+        private bool IsSelf(int XPosition, int YPosition, int currentX, int currentY) 
         {
-            return !(XPosition == currentX && YPosition == currentY);
+            return XPosition == currentX && YPosition == currentY;
         }
 
         private bool IsAlive(char cell)
