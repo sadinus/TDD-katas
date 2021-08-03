@@ -13,33 +13,49 @@ namespace ConsoleApp
         {
             var basket = (from b in books
                           group b by b into g
-                          select new BooksVolume { Volume = g.Key, Total = g.Count() }).OrderBy(x => x.Total).ToList();
+                          select new BooksVolume { Volume = g.Key, Total = g.Count() }).ToList();
 
-            var totalPrice = CalculateSetOfBooksPrice(basket);
+            var totalPrice = CalculateTotalPrice(basket);
             var result = FormatPrice(totalPrice);
 
             return result;
         }
 
-        private decimal CalculateSetOfBooksPrice(List<BooksVolume> basket)
+        private decimal CalculateTotalPrice(List<BooksVolume> basket)
         {
             decimal totalPrice = 0M;
+            var booksSets = GetBooksSetsFromBasket(basket);
 
-            while (basket.Count > 0)
+            foreach (var booksSet in booksSets)
             {
-                var groupNumber = basket.FirstOrDefault().Total;
-
-                var booksInSet = basket.Count();
-
+                var booksInSet = booksSet.Count;
                 var discount = CalculateDiscount(booksInSet);
-
-                totalPrice += groupNumber * discount * booksInSet * BASIC_PRICE;
-
-                basket.RemoveAll(x => x.Total == groupNumber);
-                basket.ForEach(x => x.Total -= groupNumber);
+                totalPrice += booksInSet * discount * BASIC_PRICE;
             }
 
             return totalPrice;
+        }
+
+        private List<HashSet<Volume>> GetBooksSetsFromBasket(List<BooksVolume> basket)
+        {
+            var booksSets = new List<HashSet<Volume>>();
+
+            while (basket.Any(set => set.Total > 0))
+            {
+                var booksSet = new HashSet<Volume>();
+                foreach (var item in basket)
+                {
+                    if (item.Total > 0 && !booksSet.Contains(item.Volume))
+                    {
+                        booksSet.Add(item.Volume);
+                        item.Total--;
+                    }
+                }
+
+                booksSets.Add(booksSet);
+            }
+
+            return booksSets;
         }
 
         private decimal CalculateDiscount(int booksTypeNumber)

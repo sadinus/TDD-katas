@@ -72,8 +72,9 @@ namespace Tests
             books.Add(Volume.Third);
             books.Add(Volume.Third);
             books.Add(Volume.Fourth);
+            books.Add(Volume.Fifth);
 
-            var expected = "51,20 EUR";
+            var expected = "51,60 EUR";
 
             var harryPotter = new HarryPotter();
 
