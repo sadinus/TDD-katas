@@ -40,15 +40,15 @@ namespace ConsoleApp
         {
             var booksSets = new List<HashSet<Volume>>();
 
-            while (basket.Any(set => set.Total > 0))
+            while (basket.Any(booksSet => booksSet.Total > 0))
             {
                 var booksSet = new HashSet<Volume>();
-                foreach (var item in basket)
+                foreach (var volumeGroup in basket)
                 {
-                    if (item.Total > 0 && !booksSet.Contains(item.Volume))
+                    if (volumeGroup.Total > 0 && !booksSet.Contains(volumeGroup.Volume))
                     {
-                        booksSet.Add(item.Volume);
-                        item.Total--;
+                        booksSet.Add(volumeGroup.Volume);
+                        volumeGroup.Total--;
                     }
                 }
 
